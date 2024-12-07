@@ -435,7 +435,7 @@
         local.get $y
         i32x4.sub
 
-        local.tee $abs              ;; Now we are using $y as abs(x)
+        local.tee $abs
         local.get $abs
 
         ;; We need to add all lanes together.
