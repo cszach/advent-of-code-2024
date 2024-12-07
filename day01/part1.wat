@@ -239,7 +239,7 @@
                                   ;;
             local.get $char       ;;
                                   ;;
-            i32.store8            ;; TODO: is using store8 the right thing?
+            i32.store8
 
             (return (i32.const 2))
           )
@@ -258,11 +258,7 @@
     ;; For scanning.
 
     (local $offset i32)      ;; the byte offset of the scanner
-    (local $word i32)        ;; the word (4 bytes) that is read at $offset
-    (local $char1 i32)       ;; the leftmost 8 bits of $word
-    (local $char2 i32)
-    (local $char3 i32)
-    (local $char4 i32)
+    (local $char i32)        ;; stores the char that is being read and processed
     (local $last_result i32) ;; the last result of $process_char
 
     ;; For list management.
@@ -287,11 +283,11 @@
 
     ;; Initializing to 0 might not be necessary?
 
-    (local.set $offset (i32.const 0))
-    (local.set $list_id (i32.const 0)) ;; Begin with reading for the left list.
-    (local.set $num_digits (i32.const 0))
-    (local.set $i (i32.const 0))
-    (local.set $total_distance (i32.const 0))
+    ;; (local.set $offset (i32.const 0))
+    ;; (local.set $list_id (i32.const 0)) ;; Begin with reading for the left list.
+    ;; (local.set $num_digits (i32.const 0))
+    ;; (local.set $i (i32.const 0))
+    ;; (local.set $total_distance (i32.const 0))
 
     ;; Calculate $left_list_start = $data_start + $data_bytes
 
@@ -318,230 +314,25 @@
 
     ;; Begin data parsing. Rough steps:
     ;;
-    ;; 1. Read 1 word (4 chars) at a time.
-    ;; 2. Extract individual bytes and examine each character.
-    ;; 3. If it is a space and the last char was a number:
-    ;;    3.1. Parse the data at $temp_start from ASCII to integer.
-    ;;    3.2. Insert it into $list_id using insertion sort.
-    ;;    3.3. If $list_id == 1, increment $i.
-    ;;    3.4. Flip $list_id.
-    ;;    3.5. Reset $num_digits.
-    ;; 4. If it is a number:
-    ;;    4.1. Copy the byte over to the left list ($left_list_start) or the
+    ;; 1. Read 1 (one) char (1 byte) at a time.
+    ;; 2. If it is a space and the last char was a number:
+    ;;    2.1. Parse the data at $temp_start from ASCII to integer.
+    ;;    2.2. Insert it into $list_id using insertion sort.
+    ;;    2.3. If $list_id == 1, increment $i.
+    ;;    2.4. Flip $list_id.
+    ;;    2.5. Reset $num_digits.
+    ;; 3. If it is a number:
+    ;;    3.1. Copy the byte over to the left list ($left_list_start) or the
     ;;         right list ($right_list_start) at offset $num_digits.
-    ;;    4.2. Increment $num_digits.
-    ;; 5. Otherwise:
-    ;;    5.1. Set flag.
-    ;;    5.2. Break.
+    ;;    3.2. Increment $num_digits.
+    ;; 4. Otherwise:
+    ;;    4.1. Set flag.
+    ;;    4.2. Break.
 
     (loop $parsing
       (i32.add (global.get $data_start) (local.get $offset))
-      i32.load
-      local.tee $word
-
-      i32.const 24     ;; first byte = word >> 24
-      i32.shr_u        ;;
-      local.tee $char1 ;;
-
-      local.get $temp_start
-      local.get $list_id
-      local.get $left_list_start
-      local.get $right_list_start
-      local.get $num_digits
-      local.get $i
-      local.get $last_result
-
-      call $process_char
-
-      local.tee $last_result
-      i32.const 1
-
-      (if (i32.eq)              ;; A number was added to a list
-        (then
-          local.get $list_id    ;; If added to right list, move to next list pos
-          i32.const 1
-
-          (if (i32.eq)
-            (then
-              local.get $i
-              i32.const 1
-              i32.add
-              local.set $i
-            )
-          )
-
-          local.get $list_id    ;; Flip $list_id (left list <-> right list)
-          i32.const 1
-          i32.xor
-          local.set $list_id
-
-          i32.const 0           ;; Reset digit count
-          local.set $num_digits
-        )
-        (else
-          local.get $last_result
-          i32.const 2
-
-          (if (i32.eq)          ;; Char is a number
-            (then
-              local.get $num_digits
-              i32.const 1
-              i32.add
-              local.set $num_digits
-            )
-            (else               ;; Char is neither whitespace nor number
-              local.get $last_result
-              i32.const 3
-
-              (if (i32.eq)
-                (then
-                  (return (i32.const 0))
-                )
-              )
-            )
-          )
-        )
-      )
-
-      local.get $word      ;; second byte = (word & 0x00ff0000) >> 16
-      i32.const 0x00ff0000
-      i32.and
-      i32.const 16
-      i32.shr_u
-      local.tee $char2
-
-      local.get $temp_start
-      local.get $list_id
-      local.get $left_list_start
-      local.get $right_list_start
-      local.get $num_digits
-      local.get $i
-      local.get $last_result
-
-      call $process_char
-
-      local.tee $last_result
-      i32.const 1
-
-      (if (i32.eq)              ;; A number was added to a list
-        (then
-          local.get $list_id    ;; If added to right list, move to next list pos
-          i32.const 1
-
-          (if (i32.eq)
-            (then
-              local.get $i
-              i32.const 1
-              i32.add
-              local.set $i
-            )
-          )
-
-          local.get $list_id    ;; Flip $list_id (left list <-> right list)
-          i32.const 1
-          i32.xor
-          local.set $list_id
-
-          i32.const 0           ;; Reset digit count
-          local.set $num_digits
-        )
-        (else
-          local.get $last_result
-          i32.const 2
-
-          (if (i32.eq)          ;; Char is a number
-            (then
-              local.get $num_digits
-              i32.const 1
-              i32.add
-              local.set $num_digits
-            )
-            (else               ;; Char is neither whitespace nor number
-              local.get $last_result
-              i32.const 3
-
-              (if (i32.eq)
-                (then
-                  (return (i32.const 0))
-                )
-              )
-            )
-          )
-        )
-      )
-
-      local.get $word      ;; third byte = (word & 0x0000ff00) >> 8
-      i32.const 0x0000ff00
-      i32.and
-      i32.const 8
-      i32.shr_u
-      local.tee $char3
-
-      local.get $temp_start
-      local.get $list_id
-      local.get $left_list_start
-      local.get $right_list_start
-      local.get $num_digits
-      local.get $i
-      local.get $last_result
-
-      call $process_char
-
-      local.tee $last_result
-      i32.const 1
-
-      (if (i32.eq)              ;; A number was added to a list
-        (then
-          local.get $list_id    ;; If added to right list, move to next list pos
-          i32.const 1
-
-          (if (i32.eq)
-            (then
-              local.get $i
-              i32.const 1
-              i32.add
-              local.set $i
-            )
-          )
-
-          local.get $list_id    ;; Flip $list_id (left list <-> right list)
-          i32.const 1
-          i32.xor
-          local.set $list_id
-
-          i32.const 0           ;; Reset digit count
-          local.set $num_digits
-        )
-        (else
-          local.get $last_result
-          i32.const 2
-
-          (if (i32.eq)          ;; Char is a number
-            (then
-              local.get $num_digits
-              i32.const 1
-              i32.add
-              local.set $num_digits
-            )
-            (else               ;; Char is neither whitespace nor number
-              local.get $last_result
-              i32.const 3
-
-              (if (i32.eq)
-                (then
-                  (return (i32.const 0))
-                )
-              )
-            )
-          )
-        )
-      )
-
-      local.get $word      ;; fourth byte = word & 0x000000ff
-      i32.const 0x000000ff
-      i32.and
-      local.tee $char4
-
+      i32.load8_u
+      local.tee $char
       local.get $temp_start
       local.get $list_id
       local.get $left_list_start
@@ -603,7 +394,7 @@
       )
 
       local.get $offset           ;; Check if finished reading the ASCII data
-      i32.const 4                 ;;
+      i32.const 1                 ;;
       i32.add                     ;;
       local.tee $offset           ;;
                                   ;;

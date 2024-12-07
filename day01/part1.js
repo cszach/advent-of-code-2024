@@ -37,14 +37,11 @@ const importObject = getImportObject(false);
 
 (async () => {
   const obj = await WebAssembly.instantiate(new Uint8Array(wasm), importObject);
-  const { data_start, data_bytes } = importObject.env;
+  const { data_start } = importObject.env;
+
+  new Uint8Array(memory.buffer).set(input, data_start);
 
   const view = new DataView(memory.buffer);
-
-  for (let i = 0; i < data_bytes; i += 4) {
-    // Input uses big-endian but WASM uses little-endian.
-    view.setUint32(data_start + i, input.readUint32BE(i), true);
-  }
 
   const { solution } = obj.instance.exports;
 
