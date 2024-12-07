@@ -21,6 +21,7 @@ node <JS_FILE>
 ## ⚙️ Compile
 
 ```
+npm install -g wat-wasm
 wat2wasm <WAT_FILE> <FEATURES…>
 ```
 
