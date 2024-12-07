@@ -30,6 +30,7 @@ For the list of required features, see below.
 | Day | Part | `--simd` |
 | :-: | :--: | :------: |
 |  1  |  1   |    ✅    |
+|  1  |  2   |    ❌    |
 
 ## 📔 Diary
 
