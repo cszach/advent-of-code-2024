@@ -1,5 +1,7 @@
 # 🎄 Advent of WASM 2024
 
+![WebAssembly logo](wa.png)
+
 My Advent of Code 2024 solutions in raw WebAssembly.
 
 ## 🎯 Goals
