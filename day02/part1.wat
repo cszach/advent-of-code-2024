@@ -1,7 +1,7 @@
 (module
   (import "env" "memory" (memory 1))
   (global $data_bytes (import "env" "data_bytes") i32)
-  (import "env" "print_i32" (func $print_i32 (param i32)))
+  ;; (import "env" "print_i32" (func $print_i32 (param i32)))
 
   ;; Returns the number of safe reports.
   (func (export "solution") (result i32)
