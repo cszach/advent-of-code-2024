@@ -24,7 +24,7 @@ node <JS_FILE>
 
 ```
 npm install -g wat-wasm
-wat2wasm <WAT_FILE> <FEATURES…>
+wat2wasm <WAT_FILE> <FEATURES...>
 ```
 
 For the list of required features, see below.
@@ -33,6 +33,7 @@ For the list of required features, see below.
 | :-: | :--: | :------: |
 |  1  |  1   |    ✅    |
 |  1  |  2   |    ❌    |
+|  2  |  1   |    ❌    |
 
 ## 📔 Diary
 
