@@ -281,8 +281,8 @@
     
     ;; Result
 
-    (local $diff i32)
-    (local $y i32)
+    (local $y v128)
+    (local $abs v128)
     (local $total_distance i32)
 
     ;; Initializing to 0 might not be necessary?
@@ -614,44 +614,72 @@
     ;; Now we have both lists read and sorted at $left_list_start and
     ;; $right_list_start, respectively.
 
-    (block $i_lt_0
+    i32.const 0
+    local.set $offset
+
+    local.get $i
+    i32.const 4
+    i32.mul
+    local.set $i
+
+    (block $end
       (loop $calculate_distance
-        local.get $i
-        i32.const 1
-        i32.sub
-        local.tee $i
-
-        i32.const 0
-        i32.lt_s
-        br_if $i_lt_0
-
-        local.get $left_list_start  ;; Push the value at left_list[i]
-        local.get $i
-        i32.const 4
-        i32.mul
+        local.get $left_list_start
+        local.get $offset
         i32.add
-        i32.load
+        v128.load
 
-        local.get $right_list_start ;; Push the value at right_list[i]
-        local.get $i
-        i32.const 4
-        i32.mul
+        local.get $right_list_start
+        local.get $offset
         i32.add
-        i32.load
+        v128.load
 
-        i32.sub                     ;; Compute absolute value of the difference
-        local.tee $diff             ;; using the formula abs(x) = (x ^ y) - y
-        i32.const 31
-        i32.shr_s
+        i32x4.sub                   ;; Compute absolute value of the difference
+        local.tee $abs              ;; using the formula abs(x) = (x ^ y) - y
+        i32.const 31                ;; where y = x >> 31
+        i32x4.shr_s
         local.tee $y
-        local.get $diff
-        i32.xor
+        local.get $abs
+        v128.xor
         local.get $y
-        i32.sub
+        i32x4.sub
 
+        local.tee $abs              ;; Now we are using $y as abs(x)
+        local.get $abs
+
+        ;; We need to add all lanes together.
+        ;; $abs = [a, b, c, d]
+        ;;   SHUF [c, d, c, d]
+        ;;   add  [a + c, b + d, c + c, d + d]
+        ;;   SHUF [b + d, ...]
+        ;;   add  [a + c + b + d, ...]
+
+        ;;           |c        |d          |these don't matter...
+        i8x16.shuffle 8 9 10 11 12 13 14 15 8 9 10 11 12 13 14 15
+        local.get $abs
+        i32x4.add
+        local.tee $abs
+        local.get $abs
+
+        ;;           |b + d  |these don't matter...
+        i8x16.shuffle 4 5 6 7 4 5 6 7 4 5 6 7 4 5 6 7
+        local.get $abs
+        i32x4.add
+        local.tee $abs
+
+        i32x4.extract_lane 0
         local.get $total_distance
         i32.add
         local.set $total_distance
+
+        local.get $offset
+        i32.const 16
+        i32.add
+        local.tee $offset
+
+        local.get $i
+        i32.ge_u
+        br_if $end
 
         br $calculate_distance
       )
