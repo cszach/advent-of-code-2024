@@ -44,4 +44,4 @@ For the list of required features, see below.
   written to WebAssembly memory.
 - Switching to SIMD didn't improve performance by much. I'm surprised to have
   got it working on first try though.
-- Took me a while to learn `i8x16.shuffle` syntax. Thanks ChatGPT!
+- Took me a while to learn `i8x16.shuffle` syntax. It takes 2 `v128`s (on the stack) and 16 0-based indices, which indexes into bytes stored in the two vectors. The returned vector is formed from the bytes pointed to by the indices.
