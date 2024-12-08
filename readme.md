@@ -8,17 +8,25 @@ My Advent of Code 2024 solutions in raw WebAssembly.
 
 - Have fun.
 - Learn about SIMD and low-level stuff.
-- Small WAT file.
+- Small WASM file.
 - Low memory usage.
 - Fast execution time.
 
 ## 🧩 How to use
 
-Go to any day. Then…
+```
+node index.js <DAY> <PART>
+```
 
-```
-node <JS_FILE>
-```
+For help info, try `node index.js`.
+
+When running with the input, the data reported includes:
+
+- Average runtime in nanoseconds (one billionth of a second) and microseconds
+  (one millionth of a second)
+- Best runtime (in 100 iterations)
+- WASM memory usage (excluding the input) in bytes
+- Compiled WASM file size in bytes
 
 ## ⚙️ Compile
 
@@ -35,6 +43,14 @@ For the list of required features, see below.
 |  1  |  2   |    ❌    |
 |  2  |  1   |    ❌    |
 
+## Reports
+
+| Day | Part | Best runtime (μs) | WASM memory usage | WASM file size |
+| :-: | :--: | :---------------: | :---------------: | :------------: |
+|  1  |  1   |      437.559      |       8040        |      699       |
+|  1  |  2   |      618.309      |       8040        |      531       |
+|  2  |  1   |      41.836       |         0         |      247       |
+
 ## 📔 Diary
 
 ### Day 1
@@ -44,4 +60,7 @@ For the list of required features, see below.
   written to WebAssembly memory.
 - Switching to SIMD didn't improve performance by much. I'm surprised to have
   got it working on first try though.
-- Took me a while to learn `i8x16.shuffle` syntax. It takes 2 `v128`s (on the stack) and 16 0-based indices, which indexes into bytes stored in the two vectors. The returned vector is formed from the bytes pointed to by the indices.
+- Took me a while to learn `i8x16.shuffle` syntax. It takes 2 `v128`s (on the
+  stack) and 16 0-based indices, which indexes into bytes stored in the two
+  vectors. The returned vector is formed from the bytes pointed to by the
+  indices.

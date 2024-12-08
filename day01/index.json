@@ -1,0 +1,56 @@
+{
+  "part1": {
+    "dataOffset": 20,
+    "memory": {
+      "initial": 1
+    },
+    "example": {
+      "importObject": {
+        "env": {
+          "data_start": 20,
+          "data_bytes": 36,
+          "list_length": 6
+        }
+      },
+      "expected": 11
+    },
+    "input": {
+      "importObject": {
+        "env": {
+          "data_start": 20,
+          "data_bytes": 14000,
+          "list_length": 1000
+        }
+      },
+      "expected": 2192892,
+      "memoryUsage": 8040
+    }
+  },
+  "part2": {
+    "dataOffset": 20,
+    "memory": {
+      "initial": 1
+    },
+    "example": {
+      "importObject": {
+        "env": {
+          "data_start": 20,
+          "data_bytes": 36,
+          "list_length": 6
+        }
+      },
+      "expected": 31
+    },
+    "input": {
+      "importObject": {
+        "env": {
+          "data_start": 20,
+          "data_bytes": 14000,
+          "list_length": 1000
+        }
+      },
+      "expected": 22962826,
+      "memoryUsage": 8040
+    }
+  }
+}
