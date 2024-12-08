@@ -34,6 +34,10 @@ const part = parseInt(arg3, 10);
 
 const dir = `${__dirname}/day${arg2.padStart(2, "0")}`;
 
+function print_i32(num) {
+  console.log(num);
+}
+
 async function run(
   inputFile,
   wasmModule,
@@ -48,6 +52,7 @@ async function run(
     : json.input.importObject;
 
   importObject.env.memory = memory;
+  importObject.env.print_i32 = print_i32;
 
   const wasm = await WebAssembly.instantiate(wasmModule, importObject);
 

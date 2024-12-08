@@ -1,13 +1,13 @@
 {
   "part1": {
-    "dataOffset": 20,
+    "dataOffset": 0,
     "memory": {
       "initial": 1
     },
     "example": {
       "importObject": {
         "env": {
-          "data_start": 20,
+          "data_start": 0,
           "data_bytes": 36,
           "list_length": 6
         }
@@ -17,13 +17,13 @@
     "input": {
       "importObject": {
         "env": {
-          "data_start": 20,
+          "data_start": 0,
           "data_bytes": 14000,
           "list_length": 1000
         }
       },
       "expected": 2192892,
-      "memoryUsage": 8040
+      "memoryUsage": 8000
     }
   },
   "part2": {
