@@ -13,11 +13,6 @@
   (data (i32.const 8)  "\64\00\00\00") ;; 100
   (data (i32.const 12) "\e8\03\00\00") ;; 1_000
   (data (i32.const 16) "\10\27\00\00") ;; 10_000
-  (data (i32.const 20) "\a0\86\01\00") ;; 100_000
-  (data (i32.const 24) "\40\42\0f\00") ;; 1_000_000
-  (data (i32.const 28) "\80\96\98\00") ;; 10_000_000
-  (data (i32.const 32) "\00\e1\f5\05") ;; 100_000_000
-  (data (i32.const 36) "\00\ca\9a\3b") ;; 1_000_000_000
 
   ;; MEMORY LAYOUT
   ;;
@@ -39,7 +34,6 @@
   ;; * 0 if the input byte was a whitespace
   ;; * 1 if the input byte was a whitespace and a number was inserted
   ;; * 2 if the input byte was a number
-  ;; * 3 if the input byte was invalid
   (func $process_char
     (param $char i32)
     (param $temp_start i32)
@@ -130,7 +124,6 @@
               local.set $list_start
             )
           )
-
 
           local.get $i              ;; Set $b and $a
           local.tee $b              ;;
@@ -239,12 +232,9 @@
                                   ;;
             local.get $char       ;;
                                   ;;
-            i32.store8
+            i32.store8            ;;
 
             (return (i32.const 2))
-          )
-          (else ;; invalid
-            (return (i32.const 3))
           )
         )
       )
@@ -253,7 +243,6 @@
     i32.const 0
   )
 
-  ;; Returns 1 if success, 0 if fail.
   (func (export "solution") (result i32)
     ;; For scanning.
 
@@ -379,16 +368,6 @@
               i32.add
               local.set $num_digits
             )
-            (else               ;; Char is neither whitespace nor number
-              local.get $last_result
-              i32.const 3
-
-              (if (i32.eq)
-                (then
-                  (return (i32.const 0))
-                )
-              )
-            )
           )
         )
       )
@@ -478,8 +457,7 @@
 
     i32.const 0
     local.get $total_distance
-    i32.store
 
-    (return (i32.const 1))
+    return
   )
 )
