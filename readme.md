@@ -44,14 +44,28 @@ For the list of required features, see below.
 |  1  |  1   |    ✅    |
 |  1  |  2   |    ❌    |
 |  2  |  1   |    ❌    |
+|  3  |  1   |    ❌    |
 
-## Reports
+## 📝 Reports
 
 | Day | Part | Best runtime (μs) | WASM mem usage (bytes) | WASM file size (bytes) |
 | :-: | :--: | :---------------: | :--------------------: | :--------------------: |
 |  1  |  1   |      311.006      |          8000          |          473           |
 |  1  |  2   |      507.89       |          8000          |          317           |
 |  2  |  1   |      41.836       |           0            |          247           |
+|  3  |  1   |      28.495       |           0            |          645           |
+
+## 🍫 Data structures and algorithms
+
+The table below lists non-trivial data structures and algorithms used in each
+solution.
+
+| Day | Part | Data structures |       Algorithms       |
+| :-: | :--: | :-------------: | :--------------------: |
+|  1  |  1   |      Array      |     Insertion sort     |
+|  1  |  2   |      Array      |                        |
+|  2  |  1   |                 |                        |
+|  3  |  1   |                 | Finite state automaton |
 
 ## 📔 Diary
 

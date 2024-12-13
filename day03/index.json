@@ -1,0 +1,25 @@
+{
+  "part1": {
+    "dataOffset": 0,
+    "memory": {
+      "initial": 1
+    },
+    "example": {
+      "importObject": {
+        "env": {
+          "data_bytes": 72
+        }
+      },
+      "expected": 161
+    },
+    "input": {
+      "importObject": {
+        "env": {
+          "data_bytes": 19836
+        }
+      },
+      "expected": 175700056,
+      "memoryUsage": 0
+    }
+  }
+}
