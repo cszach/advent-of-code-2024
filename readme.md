@@ -50,7 +50,7 @@ For the list of required features, see below.
 | Day | Part | Best runtime (μs) | WASM mem usage (bytes) | WASM file size (bytes) |
 | :-: | :--: | :---------------: | :--------------------: | :--------------------: |
 |  1  |  1   |      311.006      |          8000          |          473           |
-|  1  |  2   |      525.754      |          8000          |          321           |
+|  1  |  2   |      507.89       |          8000          |          317           |
 |  2  |  1   |      41.836       |           0            |          247           |
 
 ## 📔 Diary

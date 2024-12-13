@@ -22,14 +22,9 @@
     (param $list_start i32)
     (param $i_4 i32)
 
-    ;; These are used for insertion sort.
-    (local $offset_prev i32)       ;; byte offset to the previous element
-    (local $offset_curr i32)       ;; byte offset to the current element
-
-    local.get $list_start
+    local.get $list_start          ;; Calculate the address to store the number.
     local.get $i_4
     i32.add
-    local.tee $offset_curr         ;; Used to store the new number later.
 
     local.get $offset              ;; Calculate the ten-thousands place value.
     i32.load8_u
