@@ -1,6 +1,5 @@
 (module
   (import "env" "memory" (memory 1))
-  (global $data_start (import "env" "data_start") i32)
   (global $data_bytes (import "env" "data_bytes") i32)
   (global $list_length (import "env" "list_length") i32)
 
