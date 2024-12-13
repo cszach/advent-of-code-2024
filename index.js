@@ -67,7 +67,7 @@ async function run(
   let message = "";
 
   if (expected != null) {
-    if (expected === actual) {
+    if (expected == actual) {
       emoji = "✅";
     } else {
       emoji = "❌";
