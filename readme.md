@@ -9,7 +9,7 @@ there.
 ## 🎯 Goals
 
 - Have fun.
-- Learn about SIMD, multi-threading, and low-level stuff.
+- Learn about WebAssembly features (SIMD, threads, etc.)
 - Small WASM file.
 - Low memory usage.
 - Fast execution time.
