@@ -7,7 +7,7 @@
     "example": {
       "importObject": {
         "env": {
-          "data_bytes": 72
+          "data_bytes": 74
         }
       },
       "expected": 161
@@ -19,6 +19,29 @@
         }
       },
       "expected": 175700056,
+      "memoryUsage": 0
+    }
+  },
+  "part2": {
+    "dataOffset": 0,
+    "memory": {
+      "initial": 1
+    },
+    "example": {
+      "importObject": {
+        "env": {
+          "data_bytes": 74
+        }
+      },
+      "expected": 48
+    },
+    "input": {
+      "importObject": {
+        "env": {
+          "data_bytes": 19836
+        }
+      },
+      "expected": 71668682,
       "memoryUsage": 0
     }
   }

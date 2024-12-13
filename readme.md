@@ -45,6 +45,7 @@ For the list of required features, see below.
 |  1  |  2   |    ❌    |
 |  2  |  1   |    ❌    |
 |  3  |  1   |    ❌    |
+|  3  |  2   |    ❌    |
 
 ## 📝 Reports
 
@@ -54,6 +55,7 @@ For the list of required features, see below.
 |  1  |  2   |      507.89       |          8000          |          317           |
 |  2  |  1   |      41.836       |           0            |          247           |
 |  3  |  1   |      28.495       |           0            |          645           |
+|  3  |  2   |      43.931       |           0            |          915           |
 
 ## 🍫 Data structures and algorithms
 
@@ -66,6 +68,7 @@ solution.
 |  1  |  2   |      Array      |                        |
 |  2  |  1   |                 |                        |
 |  3  |  1   |                 | Finite state automaton |
+|  3  |  2   |                 | Finite state automaton |
 
 ## 📔 Diary
 
