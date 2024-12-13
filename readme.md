@@ -2,12 +2,14 @@
 
 ![WebAssembly logo](wa.png)
 
-My Advent of Code 2024 solutions in raw WebAssembly.
+My Advent of Code 2024 solutions in hand-crafted WebAssembly. No processing in
+JavaScript‒input is copied to WebAssembly and the answer is computed entirely in
+there.
 
 ## 🎯 Goals
 
 - Have fun.
-- Learn about SIMD and low-level stuff.
+- Learn about SIMD, multi-threading, and low-level stuff.
 - Small WASM file.
 - Low memory usage.
 - Fast execution time.
