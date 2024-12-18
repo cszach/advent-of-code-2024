@@ -36,6 +36,7 @@ const dir = `${__dirname}/day${arg2.padStart(2, "0")}`;
 
 function print_i32(num) {
   console.log(num);
+  return num;
 }
 
 async function run(
@@ -53,6 +54,11 @@ async function run(
 
   importObject.env.memory = memory;
   importObject.env.print_i32 = print_i32;
+  importObject.env.print = (start, length) => {
+    console.log(
+      new TextDecoder().decode(new Uint8Array(memory.buffer, start, length))
+    );
+  };
 
   const wasm = await WebAssembly.instantiate(wasmModule, importObject);
 
@@ -111,35 +117,39 @@ async function run(
 }
 
 (async () => {
-  try {
-    const wasm = fs.readFileSync(`${dir}/part${part}.wasm`);
-    const wasmModule = new WebAssembly.Module(new Uint8Array(wasm));
+  let wasm, wasmModule, example, input, data, partData;
 
-    const example = options.has("--input")
+  try {
+    wasm = fs.readFileSync(`${dir}/part${part}.wasm`);
+
+    example = options.has("--input")
       ? null
       : fs.readFileSync(`${dir}/example.txt`);
 
-    const input = options.has("--example")
+    input = options.has("--example")
       ? null
       : fs.readFileSync(`${dir}/input.txt`);
 
-    const data = await require(`${dir}/index.json`);
-    const partData = part == 1 ? data.part1 : data.part2;
-
-    const title = `Day ${day} Part ${part == 1 ? "One" : "Two"}`;
-    console.log(title);
-    console.log("=".repeat(title.length));
-    console.log();
-
-    if (example && partData.example) {
-      await run(example, wasmModule, partData, true);
-    }
-
-    if (input && partData.input) {
-      await run(input, wasmModule, partData, false, wasm.byteLength);
-    }
+    data = await require(`${dir}/index.json`);
   } catch (err) {
     console.error(`Cannot find solution for day ${day} part ${part}.`);
     process.exit(2);
+  }
+
+  wasmModule = new WebAssembly.Module(new Uint8Array(wasm));
+
+  partData = part == 1 ? data.part1 : data.part2;
+
+  const title = `Day ${day} Part ${part == 1 ? "One" : "Two"}`;
+  console.log(title);
+  console.log("=".repeat(title.length));
+  console.log();
+
+  if (example && partData.example) {
+    await run(example, wasmModule, partData, true);
+  }
+
+  if (input && partData.input) {
+    await run(input, wasmModule, partData, false, wasm.byteLength);
   }
 })();

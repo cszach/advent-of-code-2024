@@ -1,0 +1,27 @@
+{
+  "part1": {
+    "dataOffset": 0,
+    "memory": {
+      "initial": 1
+    },
+    "example": {
+      "importObject": {
+        "env": {
+          "data_bytes": 110,
+          "grid_size": 10
+        }
+      },
+      "expected": 18
+    },
+    "input": {
+      "importObject": {
+        "env": {
+          "data_bytes": 19740,
+          "grid_size": 140
+        }
+      },
+      "expected": 2593,
+      "memoryUsage": 19861
+    }
+  }
+}
