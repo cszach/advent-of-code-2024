@@ -42,11 +42,12 @@ For the list of required features, see below.
 | Day | Part | `--simd` |
 | :-: | :--: | :------: |
 |  1  |  1   |    ✅    |
-|  1  |  2   |    ❌    |
-|  2  |  1   |    ❌    |
-|  3  |  1   |    ❌    |
-|  3  |  2   |    ❌    |
-|  4  |  1   |    ❌    |
+|  1  |  2   |          |
+|  2  |  1   |          |
+|  3  |  1   |          |
+|  3  |  2   |          |
+|  4  |  1   |          |
+|  4  |  2   |          |
 
 ## 📝 Reports
 
@@ -58,6 +59,7 @@ For the list of required features, see below.
 |  3  |  1   |      28.495       |           0            |          645           |
 |  3  |  2   |      43.931       |           0            |          915           |
 |  4  |  1   |      242.491      |         19861          |          552           |
+|  4  |  2   |      109.441      |           0            |          274           |
 
 ## 🍫 Data structures and algorithms
 
@@ -72,6 +74,7 @@ solution.
 |  3  |  1   |                 | Finite state automaton |
 |  3  |  2   |                 | Finite state automaton |
 |  4  |  1   |      Array      |     Transposition      |
+|  4  |  2   |                 |                        |
 
 ## 📔 Diary
 
